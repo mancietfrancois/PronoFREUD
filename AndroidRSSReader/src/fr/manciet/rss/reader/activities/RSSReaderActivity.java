@@ -22,6 +22,7 @@ public class RSSReaderActivity extends ActionBarActivity implements
 		ActionBar.TabListener {
 
 	public static final String NBA_FEED_URL = "http://www.nba.com/rss/nba_rss.xml";
+	public static final String LIVESCORE_FEED_URL = "http://www.scorespro.com/rss2/live-basketball.xml";
 	
 	
 	AppSectionsPagerAdapter mAppSectionsPagerAdapter;

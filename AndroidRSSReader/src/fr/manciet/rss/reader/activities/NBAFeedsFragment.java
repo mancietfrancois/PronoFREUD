@@ -19,7 +19,9 @@ import android.widget.Toast;
 import fr.manciet.adapters.FeedMessageAdapter;
 import fr.manciet.androidrssreader.R;
 import fr.manciet.rss.model.FeedMessage;
-import fr.manciet.rss.read.AndroidSaxFeedParser;
+import fr.manciet.rss.model.NBAFeedMessage;
+import fr.manciet.rss.model.extractor.NBATeamTagExtractor;
+import fr.manciet.rss.parser.AndroidSaxFeedParser;
 
 /**
  * 
@@ -97,9 +99,9 @@ public class NBAFeedsFragment extends Fragment {
 		 * Parse the file obtained from the URLs
 		 */
 		protected List<FeedMessage> doInBackground(String... urls) {
-			AndroidSaxFeedParser androidSaxParser = new AndroidSaxFeedParser(
-					urls[0]);
-			List<FeedMessage> values = androidSaxParser.parse();
+			AndroidSaxFeedParser androidSaxParser = new AndroidSaxFeedParser(urls[0],
+					new NBATeamTagExtractor());
+			List<FeedMessage> values = androidSaxParser.parse(new NBAFeedMessage());
 			Log.i("RSS", "number of items = " + values.size());
 			return values;
 		}

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import fr.manciet.androidrssreader.R;
 import fr.manciet.rss.model.FeedMessage;
+import fr.manciet.rss.model.NBAFeedMessage;
 
 /**
  * 
@@ -53,7 +54,7 @@ public class FeedMessageAdapter extends ArrayAdapter<FeedMessage> {
 
 		//Set the source of the icon according to the NBATeamTag of the FeedMessage
 		int drawingRessource;
-		switch (values.get(position).getNbaTeamTag()) {
+		switch (((NBAFeedMessage) values.get(position)).getNbaTeamTag()) {
 		case ATL:
 			drawingRessource = R.drawable.ic_atl;
 			break;

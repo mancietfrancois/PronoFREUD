@@ -7,8 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import fr.manciet.rss.model.extractor.NBATagsExtractor;
-import fr.manciet.rss.model.utils.NBATeamTag;
+import fr.manciet.rss.model.extractor.TeamTagExtractor;
 import fr.manciet.rss.model.utils.Utils;
 
 /**
@@ -16,16 +15,16 @@ import fr.manciet.rss.model.utils.Utils;
  * @author François Manciet
  *
  */
-public class FeedMessage implements Comparable<FeedMessage> {
+public abstract class FeedMessage implements Comparable<FeedMessage> {
 
 	static SimpleDateFormat FORMATTER = 
 	        new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss ZZZ", Locale.US);
-	private String title;
-	private String description;
-	private String guid;
-	private URL link;
-	private Date date;
-	private NBATeamTag nbaTeam;
+	protected String title;
+	protected String description;
+	protected String guid;
+	protected URL link;
+	protected Date date;
+
 	
 	/**
 	 * Build a new FeedMessage with a title, a description, a link to a web page and a date
@@ -39,7 +38,6 @@ public class FeedMessage implements Comparable<FeedMessage> {
 		this.link = link_;
 		this.description = description_;
 		this.date = date_;
-		this.nbaTeam = null;
 	}
 
 	/**
@@ -50,7 +48,6 @@ public class FeedMessage implements Comparable<FeedMessage> {
 		this.link = null;
 		this.description = "";
 		this.date = null;
-		this.nbaTeam = null;
 	}
 
 	/**
@@ -127,22 +124,6 @@ public class FeedMessage implements Comparable<FeedMessage> {
 	
 	/**
 	 * 
-	 * @param nbaTeam_ : set the nbaTeam of the message
-	 */
-	public void setNbaTeam(NBATeamTag nbaTeam_) {
-		this.nbaTeam = nbaTeam_;
-	}
-	
-	/**
-	 * 
-	 * @return the NbaTeamTag of the message
-	 */
-	public NBATeamTag getNbaTeamTag() {
-		return nbaTeam;
-	}
-	
-	/**
-	 * 
 	 * @param guid : set the guid of the message
 	 */
 	public void setGuid(String guid_){
@@ -155,14 +136,6 @@ public class FeedMessage implements Comparable<FeedMessage> {
 	 */
 	public String getGuid() {
 		return this.guid;
-	}
-	
-	/**
-	 * Extract the NbaTeam of the message
-	 * @param extractor : the NBATagsExtractor used to extract the team contained in the message
-	 */
-	public void extractTagFromDescription(NBATagsExtractor extractor) {
-		nbaTeam = extractor.getNBATeamFromFeedTitleAndDescription(this.description, this.title);
 	}
 
 	@Override
@@ -185,8 +158,8 @@ public class FeedMessage implements Comparable<FeedMessage> {
 	 * 
 	 * @return a new FeedMessage which is the same a the FeedMessage used
 	 */
-	public FeedMessage copy() {
-		return new FeedMessage(title, link, description, date);
-	}
+	public abstract FeedMessage copy();
+	
+	public abstract void extractTagFromDescription(TeamTagExtractor extractor);
 
 }
