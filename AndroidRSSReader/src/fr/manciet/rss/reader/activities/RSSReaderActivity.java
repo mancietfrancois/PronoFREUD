@@ -13,6 +13,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import fr.manciet.androidrssreader.R;
 
+/**
+ * 
+ * @author François Manciet
+ *
+ */
 public class RSSReaderActivity extends ActionBarActivity implements
 		ActionBar.TabListener {
 

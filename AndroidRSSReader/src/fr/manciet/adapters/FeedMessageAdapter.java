@@ -12,31 +12,48 @@ import android.widget.TextView;
 import fr.manciet.androidrssreader.R;
 import fr.manciet.rss.model.FeedMessage;
 
+/**
+ * 
+ * @author François Manciet
+ *
+ */
 public class FeedMessageAdapter extends ArrayAdapter<FeedMessage> {
-	  private final Context context;
-	  private final List<FeedMessage> values;
 
-	  public FeedMessageAdapter(Context context, List<FeedMessage> values) {
-	    super(context, R.layout.row_layout, values);
-	    this.context = context;
-	    this.values = values;
-	  }
+	private final Context context;
+	private final List<FeedMessage> values;
 
-	  @Override
-	  public View getView(int position, View convertView, ViewGroup parent) {
-	    LayoutInflater inflater = (LayoutInflater) context
-	        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    View rowView = inflater.inflate(R.layout.row_layout, parent, false);
-	    
-	    TextView title = (TextView) rowView.findViewById(R.id.feedMessageTitle);
-	    title.setText(values.get(position).getTitle());
-	    TextView description = (TextView) rowView.findViewById(R.id.feedMessageDescription);
-	    description.setText(values.get(position).getDescription());
-	    
-	    
-	    ImageView imageView = (ImageView) rowView.findViewById(R.id.feedMessageIcon);
-	    int drawingRessource;
-	    switch (values.get(position).getNbaTeamTag()) {
+	/**
+	 * Adapter built with the list of FeedMessage extracted from RSS flow
+	 * Inflated with the layout row_layout (icon, title and description of the FeedMessage)
+	 * @param context : context of the application
+	 * @param values : Data extracted from the RSS flow
+	 */
+	public FeedMessageAdapter(Context context, List<FeedMessage> values) {
+		super(context, R.layout.row_layout, values);
+		this.context = context;
+		this.values = values;
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		LayoutInflater inflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View rowView = inflater.inflate(R.layout.row_layout, parent, false);
+
+		//Extraction of each field : icon, title and description
+		TextView title = (TextView) rowView.findViewById(R.id.feedMessageTitle);
+		TextView description = (TextView) rowView
+				.findViewById(R.id.feedMessageDescription);
+		ImageView imageView = (ImageView) rowView
+				.findViewById(R.id.feedMessageIcon);
+		
+		//Set text according to the given feedMessage
+		title.setText(values.get(position).getTitle());
+		description.setText(values.get(position).getDescription());
+
+		//Set the source of the icon according to the NBATeamTag of the FeedMessage
+		int drawingRessource;
+		switch (values.get(position).getNbaTeamTag()) {
 		case ATL:
 			drawingRessource = R.drawable.ic_atl;
 			break;
@@ -118,7 +135,8 @@ public class FeedMessageAdapter extends ArrayAdapter<FeedMessage> {
 		case SAS:
 			drawingRessource = R.drawable.ic_sas;
 			break;
-		case TOR:drawingRessource = R.drawable.ic_tor;
+		case TOR:
+			drawingRessource = R.drawable.ic_tor;
 			break;
 		case UTA:
 			drawingRessource = R.drawable.ic_uta;
@@ -135,9 +153,9 @@ public class FeedMessageAdapter extends ArrayAdapter<FeedMessage> {
 		default:
 			drawingRessource = R.drawable.ic_launcher;
 			break;
-	    }
-	    
-	    imageView.setImageResource(drawingRessource);
-	    return rowView;
-	  }
-	} 
+		}
+
+		imageView.setImageResource(drawingRessource);
+		return rowView;
+	}
+}

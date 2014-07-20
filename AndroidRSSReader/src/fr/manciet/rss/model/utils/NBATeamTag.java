@@ -1,5 +1,10 @@
 package fr.manciet.rss.model.utils;
 
+/**
+ * 
+ * @author François Manciet
+ *
+ */
 public enum NBATeamTag {
 	ATL,
 	BKN,

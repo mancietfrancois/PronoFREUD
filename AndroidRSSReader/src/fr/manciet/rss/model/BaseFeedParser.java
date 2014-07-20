@@ -5,6 +5,11 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * 
+ * @author François Manciet
+ *
+ */
 public abstract class BaseFeedParser implements FeedParser {
 	
 	// names of the XML tags
@@ -17,6 +22,10 @@ public abstract class BaseFeedParser implements FeedParser {
     
     final URL feedUrl;
 
+    /**
+     * Initiate the parser with the URL of the RSS flow
+     * @param feedUrl : the URL of the RSS flow
+     */
     protected BaseFeedParser(String feedUrl){
         try {
             this.feedUrl = new URL(feedUrl);
@@ -25,6 +34,10 @@ public abstract class BaseFeedParser implements FeedParser {
         }
     }
 
+    /**
+     * Open the stream contained in the feedUrl
+     * @return : an InputStream of the feedUrl
+     */
     protected InputStream getInputStream() {
         try {
             return feedUrl.openConnection().getInputStream();

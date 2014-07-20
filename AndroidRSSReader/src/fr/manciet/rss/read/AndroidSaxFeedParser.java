@@ -12,6 +12,11 @@ import fr.manciet.rss.model.BaseFeedParser;
 import fr.manciet.rss.model.FeedMessage;
 import fr.manciet.rss.model.extractor.NBATagsExtractor;
 
+/**
+ * 
+ * @author François Manciet
+ *
+ */
 public class AndroidSaxFeedParser extends BaseFeedParser {
 	
 	private NBATagsExtractor nbaTagsExtractor;
@@ -21,6 +26,10 @@ public class AndroidSaxFeedParser extends BaseFeedParser {
 		nbaTagsExtractor = new NBATagsExtractor();
 	}
 
+	/**
+	 * Parse the file obtained from the input stream and return
+	 * a list of all the feed messages
+	 */
 	public List<FeedMessage> parse() {
 		final FeedMessage currentMessage = new FeedMessage();
 		RootElement root = new RootElement("rss");
@@ -71,6 +80,11 @@ public class AndroidSaxFeedParser extends BaseFeedParser {
 		return extractNbaTags(messages);
 	}
 	
+	/**
+	 * Extract the nba tags contained in the list of messages
+	 * @param messages : the messages extracted from the urlfeed
+	 * @return : a list of messages with the nba tags setted
+	 */
 	public List<FeedMessage> extractNbaTags(List<FeedMessage> messages) {
 		
 		for (int i = 0; i < messages.size(); i++) {

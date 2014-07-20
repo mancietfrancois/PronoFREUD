@@ -4,6 +4,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 
+ * @author François Manciet
+ *
+ */
 public class NBATags {
 
 	public static final String[] ATLANTA_TAGS = { "Atlanta", "Hawks" };
