@@ -10,7 +10,6 @@ import android.sax.RootElement;
 import android.util.Xml;
 import fr.manciet.rss.model.FeedMessage;
 import fr.manciet.rss.model.NBAFeedMessage;
-import fr.manciet.rss.model.extractor.NBATeamTagExtractor;
 import fr.manciet.rss.model.extractor.TeamTagExtractor;
 
 /**

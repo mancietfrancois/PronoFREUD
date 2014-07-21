@@ -2,22 +2,23 @@ package fr.manciet.rss.reader.activities;
 
 import java.util.List;
 
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 import android.widget.Toast;
 import fr.manciet.adapters.FeedMessageAdapter;
-import fr.manciet.androidrssreader.R;
 import fr.manciet.rss.model.FeedMessage;
 import fr.manciet.rss.model.NBAFeedMessage;
 import fr.manciet.rss.model.extractor.NBATeamTagExtractor;
@@ -28,11 +29,10 @@ import fr.manciet.rss.parser.AndroidSaxFeedParser;
  * @author François Manciet
  *
  */
-public class NBAFeedsFragment extends Fragment {
+public class NBAFeedsFragment extends ListFragment implements OnRefreshListener {
 	
 	private String url;
-	private View rootView;
-	private ListView listView;
+	private PullToRefreshLayout mPullToRefreshLayout;
 	
 	/**
 	 * Creates a new NBAFeedsFragments with the address of the NBA RSS feed 
@@ -41,32 +41,59 @@ public class NBAFeedsFragment extends Fragment {
 	public NBAFeedsFragment(String url_) {
 		this.url = url_;
 	}
-
 	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		rootView = inflater.inflate(
-				R.layout.fragment_rss_reader, container,
-				false);
-		listView = (ListView) rootView.findViewById(R.id.listViewRSSFeeds);
-		listView.setOnItemClickListener(new OnItemClickListener() {
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onViewCreated(view, savedInstanceState);
+
+		ViewGroup viewGroup = (ViewGroup) view;
+
+		// As we're using a ListFragment we create a PullToRefreshLayout
+		// manually
+		mPullToRefreshLayout = new PullToRefreshLayout(
+				viewGroup.getContext());
+		int pixel = (int) TypedValue.applyDimension(
+				TypedValue.COMPLEX_UNIT_DIP, 16, getResources()
+						.getDisplayMetrics());
+		mPullToRefreshLayout.setPadding(pixel, pixel, pixel, pixel);
+
+		// We can now setup the PullToRefreshLayout
+		ActionBarPullToRefresh
+				.from(getActivity())
+				// We need to insert the PullToRefreshLayout into the
+				// Fragment's ViewGroup
+				.insertLayoutInto(viewGroup)
+				// Here we mark just the ListView and it's Empty View as
+				// pullable
+				.theseChildrenArePullable(android.R.id.list,
+						android.R.id.empty).listener(this)
+				.setup(mPullToRefreshLayout);
+
+		getListView().setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-
 				// ListView Clicked item value
-				FeedMessage itemValue = (FeedMessage) listView
-						.getItemAtPosition(position);
-
+				FeedMessage itemValue = (FeedMessage) getListView().getItemAtPosition(position);
 				// launchWebIntent(Uri.parse(itemValue.getLink()+ ""));
 				Toast.makeText(getActivity(),
 						itemValue.toString(), Toast.LENGTH_LONG).show();
 			}
 		});
 		new RetrieveFeedTask().execute(url);
-		return rootView;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		setListShownNoAnimation(true);
+	}
+	
+	@Override
+	public void onRefreshStarted(View view) {
+		new RetrieveFeedTask().execute(url);
 	}
 	
 	/**
@@ -106,34 +133,26 @@ public class NBAFeedsFragment extends Fragment {
 			return values;
 		}
 
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			//Initiate a progressDialog 
-			progressDialog = ProgressDialog.show(NBAFeedsFragment.this.getActivity(),
-					"Wait", "Downloading...");
-		}
-
 		/**
 		 * Build the list view with the FeedMessage contained in values
 		 */
 		protected void onPostExecute(List<FeedMessage> values) {
 
 			//If the list view does not have an adapter, create one with values
-			if (listView.getAdapter() == null) {
+			if (getListAdapter() == null) {
+				Log.i("DEBUG", "Adapter null");
 				FeedMessageAdapter adapter = new FeedMessageAdapter(
 					getActivity(), values);
-				listView.setAdapter(adapter);
+				setListAdapter(adapter);
 			//Otherwise, get the adapter and update values inside
 			} else {
-				FeedMessageAdapter adapter = (FeedMessageAdapter) listView.getAdapter();
+				Log.i("DEBUG", "Adapter not null");
+				FeedMessageAdapter adapter = (FeedMessageAdapter) getListAdapter();
 				adapter.clear();
 				adapter.addAll(values);
 				adapter.notifyDataSetChanged();
-			}
-			//Dismiss the progressDialog
-			progressDialog.dismiss();			
+				mPullToRefreshLayout.setRefreshComplete();
+			}		
 		}
 	}
-
 }
