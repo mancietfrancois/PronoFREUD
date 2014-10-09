@@ -1,0 +1,28 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.12.+'
+        // this is for Gradle build system so it finds
+        // android plugin used below
+    }
+}
+
+
+apply plugin: 'android'
+
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.1.0"
+    sourceSets {
+        main {
+            manifest.srcFile 'GrocerySync-Android/src/main/AndroidManifest.xml'
+        }
+    }
+
+}
+

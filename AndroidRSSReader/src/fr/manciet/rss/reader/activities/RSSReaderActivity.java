@@ -87,9 +87,6 @@ public class RSSReaderActivity extends ActionBarActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle presses on the action bar items
 	    switch (item.getItemId()) {
-	        case R.id.action_refresh:
-	        	fragment.reloadFeeds();
-	            return true;
 	        case R.id.action_settings:
 	        	return true;
 	        default:
