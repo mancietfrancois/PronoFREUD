@@ -30,7 +30,7 @@ public class FeedMessageAdapter extends ArrayAdapter<FeedMessage> {
 	 * @param values : Data extracted from the RSS flow
 	 */
 	public FeedMessageAdapter(Context context, List<FeedMessage> values) {
-		super(context, R.layout.row_layout, values);
+		super(context, R.layout.nba_feed_row_layout, values);
 		this.context = context;
 		this.values = values;
 	}
@@ -39,7 +39,7 @@ public class FeedMessageAdapter extends ArrayAdapter<FeedMessage> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.row_layout, parent, false);
+		View rowView = inflater.inflate(R.layout.nba_feed_row_layout, parent, false);
 
 		//Extraction of each field : icon, title and description
 		TextView title = (TextView) rowView.findViewById(R.id.feedMessageTitle);
