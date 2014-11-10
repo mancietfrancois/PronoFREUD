@@ -9,9 +9,9 @@ import java.util.List;
  */
 public abstract class IndexBaseAdapter extends BaseAdapter {
 
-    protected List<Row> rows;
+    protected List<Row> mRows;
 
     public void setRows(List<Row> _rows) {
-        rows = _rows;
+        mRows = _rows;
     }
 }

@@ -9,15 +9,11 @@
         android:id="@+id/indexed_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        custom:side_index_width="20dip"
-        custom:side_index_background="@drawable/test_border"
-        custom:side_index_text_size="12sp"
-        custom:side_index_text_color="#7C8386"
-        custom:toast_layout_width="100dip"
-        custom:toast_layout_height="100dip"
-        custom:toast_layout_background="@drawable/test_border_index_toast"
-        custom:toast_text_text_size="55sp"
-        custom:toast_text_color="#2FA6C9"
+        custom:side_index_width="20dp"
+        custom:side_index_background="@drawable/default_index_item_border"
+        custom:side_index_text_size="8sp"
+        custom:side_index_text_color="@android:color/secondary_text_dark"
+        custom:toast_text_text_size="18sp"
+        custom:toast_text_color="@android:color/primary_text_dark"
         />
-
 </RelativeLayout>

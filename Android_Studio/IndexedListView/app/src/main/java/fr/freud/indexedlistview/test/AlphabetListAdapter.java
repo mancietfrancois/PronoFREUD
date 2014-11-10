@@ -30,12 +30,12 @@ public class AlphabetListAdapter extends IndexBaseAdapter {
 
     @Override
     public int getCount() {
-        return rows.size();
+        return mRows.size();
     }
 
     @Override
     public Row getItem(int position) {
-        return rows.get(position);
+        return mRows.get(position);
     }
 
     @Override
